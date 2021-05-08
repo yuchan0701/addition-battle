@@ -12,6 +12,7 @@ document.getElementById("js-owari").style.display = "none";
     const seigoDisplay = document.getElementById('seigo');
     const answer = document.getElementById('text1');
     const pointDisplay = document.getElementById('point');
+    const pointBar = document.getElementById("Pbar");
 
 //ページ更新
 function retry(){
@@ -35,9 +36,6 @@ function setupKeisan(){
 
     document.getElementById('result').style.display = "none";
     document.getElementById('retry').style.display = "none";
-
-    
-    
 }
 
 //結果発表だす
@@ -52,6 +50,7 @@ function setupKekka(){
             pointDisplay.textContent = point;
             seigoDisplay.style.display = "none";
             document.getElementById("baryouso").style.display = "none";
+            document.getElementById("P-baryouso").style.display = "none";
 };
 
 //時間制限
@@ -64,10 +63,27 @@ function timeLimit(){
         setupKekka();
     };
 
-  
 };
 
-
+//ポイントプログレスバー
+function pointProgress(){
+    if (point < 100) {
+        pointBar.className = "progress-bar bg-success";
+        pointBar.style = "width:"+point+"%";
+    }else if (point < 500) {
+        pointBar.className = "progress-bar bg-info";
+        pointBar.style = "width:"+((point - 100)/4)+"%";
+    }else if (point < 2000) {
+        pointBar.className = "progress-bar bg-warning";
+        pointBar.style = "width:"+((point - 500)/15)+"%";
+    }else if (point < 10000) {
+        pointBar.className = "progress-bar bg-danger";
+        pointBar.style = "width:"+((point - 2000)/80
+        )+"%";
+    };
+      
+    
+};
 
 
 
@@ -108,12 +124,13 @@ document.getElementById('text1').onkeydown = (e) =>{
             seigoDisplay.textContent = "正解";
             answer.value = '';
             barP = -3;
+            pointProgress();
             setupQuiz();
         
             }else{
             barP += 150;
             document.getElementById("machigae").textContent = a + ' + ' + b + ' = ' + answer.value + " ではありません。";
-
+      
             seigoDisplay.textContent = "";
             setupKekka()
             answer.value = '';
